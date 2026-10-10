@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PhishGuard — Email & URL Threat Analysis</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand"><span class="brand-icon">⬡</span><div><b>PHISHGUARD</b><small>THREAT INTELLIGENCE</small></div></div>
+      <div class="side-label">WORKSPACE</div>
+      <button class="nav-item active" data-view="scanner">◈ <span>Threat Scanner</span></button>
+      <button class="nav-item" data-view="rules">⌘ <span>Detection Rules</span></button>
+      <div class="side-label">SYSTEM</div>
+      <button class="nav-item" data-view="privacy">▣ <span>Privacy Center</span></button>
+      <div class="sidebar-bottom"><span class="status-dot"></span> Local API interface <small id="apiStatus">Checking API…</small></div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar"><div><span class="eyebrow">SECURITY OPERATIONS / EMAIL DEFENSE</span><h1 id="pageTitle">Threat Scanner</h1></div><div class="top-status"><span class="status-dot"></span> ANALYSIS ENGINE <b id="engineStatus">CONNECTING</b></div></header>
+
+      <section id="scannerView">
+        <div class="intro"><div><h2>Detect the signal.<br><em>Explain the threat.</em></h2><p>Inspect suspicious emails and links with transparent, evidence-based indicators.</p></div><div class="intro-mark">PG<span> / 01</span></div></div>
+        <div class="stats">
+          <div class="stat-card"><span>ANALYSIS MODE</span><b>Heuristic</b><small>Prototype engine</small></div>
+          <div class="stat-card"><span>URL FETCHING</span><b class="safe-text">Disabled</b><small>Links are not opened</small></div>
+          <div class="stat-card"><span>CONTENT STORAGE</span><b class="safe-text">Not persisted</b><small>By this prototype</small></div>
+        </div>
+
+        <div class="workspace">
+          <section class="panel input-panel">
+            <div class="panel-heading"><div><span class="step">01 / INPUT</span><h3>Submit for analysis</h3></div><span class="pill">SECURE INPUT</span></div>
+            <label for="emailText">EMAIL CONTENT <span>Optional if scanning a URL</span></label>
+            <textarea id="emailText" placeholder="Paste the email body, sender details, subject, or suspicious message here…"></textarea>
+            <div class="or-line"><span>AND / OR</span></div>
+            <label for="urlText">SUSPICIOUS URL</label>
+            <input id="urlText" type="text" placeholder="https://example.com/…">
+            <div class="upload-row"><label class="upload-button" for="emlFile">＋ Upload .eml</label><input type="file" id="emlFile" accept=".eml,message/rfc822"><span id="fileName">No file selected</span></div>
+            <button class="scan-button" id="scanButton"><span>⌕</span> Analyze threat <b>→</b></button>
+            <div class="input-foot"><span>◉</span> URLs are inspected as text; this demo does not visit them.</div>
+          </section>
+
+          <section class="panel result-panel">
+            <div class="panel-heading"><div><span class="step">02 / INTELLIGENCE</span><h3>Analysis report</h3></div><span class="pill" id="reportState">AWAITING INPUT</span></div>
+            <div id="emptyState" class="empty-state"><div class="radar"><span>⌕</span></div><h3>Ready to inspect</h3><p>Submit an email or URL to generate a risk assessment and evidence report.</p><div class="empty-lines"><i></i><i></i><i></i></div></div>
+            <div id="results" class="results hidden"></div>
+          </section>
+        </div>
+        <div class="disclaimer">HACKATHON PROTOTYPE · A heuristic score is not a probability. A low score does not guarantee safety.</div>
+      </section>
+
+      <section id="rulesView" class="secondary-view hidden">
+        <div class="intro"><div><h2>Six rules.<br><em>One defense layer.</em></h2><p>Requirements mapped to prototype behavior and future engineering work.</p></div></div>
+        <div class="rule-grid">
+          <article class="rule-card"><span>RULE 01</span><h3>⚡ Speed target</h3><p>Measure local processing time. Target under two seconds for lightweight checks; external APIs may add latency.</p><small>METRIC: p50 / p95 latency</small></article>
+          <article class="rule-card"><span>RULE 02</span><h3>◈ New techniques</h3><p>Combine rules with a classifier and evaluate against phishing samples excluded from training.</p><small>METRIC: recall on held-out samples</small></article>
+          <article class="rule-card"><span>RULE 03</span><h3>◎ Fewer false positives</h3><p>Test against legitimate mail, tune thresholds, and include an uncertain verdict rather than overclaiming.</p><small>METRIC: false-positive rate</small></article>
+          <article class="rule-card"><span>RULE 04</span><h3>⌁ URL inspection</h3><p>Detect encoded URLs, IP hosts, shorteners and suspicious structures. Safe redirect resolution needs an isolated service.</p><small>METRIC: URL test coverage</small></article>
+          <article class="rule-card"><span>RULE 05</span><h3>▣ Privacy first</h3><p>Process in memory, avoid raw-content logs and do not send email content to third parties without clear consent.</p><small>METRIC: retention and log audit</small></article>
+          <article class="rule-card"><span>RULE 06</span><h3>⌕ Explainable results</h3><p>Return findings with severity, plain-language explanations and actionable recommendations.</p><small>METRIC: evidence shown per verdict</small></article>
+        </div>
+      </section>
+
+      <section id="privacyView" class="secondary-view hidden">
+        <div class="intro"><div><h2>Privacy by design.<br><em>Not an afterthought.</em></h2><p>Current prototype behavior and production safeguards.</p></div></div>
+        <div class="panel privacy-panel"><h3>Current prototype</h3><ul><li>Email and URL data is processed in the API request and is not intentionally written to a database.</li><li>The application does not automatically open submitted URLs.</li><li>Do not expose this development server publicly as-is.</li><li>Production deployment should disable request-body logging, set strict request limits, add authentication/rate limiting, and isolate any URL fetch service.</li><li>Third-party threat intelligence may receive the queried URL; review each provider's privacy terms before enabling it.</li></ul></div>
+      </section>
+    </main>
+  </div>
+  <script src="/app.js"></script>
+</body>
+</html>
